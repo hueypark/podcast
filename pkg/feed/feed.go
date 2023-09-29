@@ -12,13 +12,13 @@ type Feed struct {
 	Link        string
 	FeedLink    string
 	Updated     time.Time
-	Items       []Item
+	Episodes    []Episode
 }
 
 func MakeFeed(feed *gofeed.Feed) Feed {
-	items := make([]Item, len(feed.Items))
+	episodes := make([]Episode, len(feed.Items))
 	for i, item := range feed.Items {
-		items[i] = MakeItem(item)
+		episodes[i] = MakeEpisode(item)
 	}
 
 	return Feed{
@@ -27,6 +27,6 @@ func MakeFeed(feed *gofeed.Feed) Feed {
 		Link:        feed.Link,
 		FeedLink:    feed.FeedLink,
 		Updated:     *feed.UpdatedParsed,
-		Items:       items,
+		Episodes:    episodes,
 	}
 }

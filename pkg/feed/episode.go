@@ -2,7 +2,7 @@ package feed
 
 import "github.com/mmcdole/gofeed"
 
-type Item struct {
+type Episode struct {
 	GUID        string
 	Title       string
 	Description string
@@ -10,13 +10,13 @@ type Item struct {
 	Enclosures  []Enclosure
 }
 
-func MakeItem(item *gofeed.Item) Item {
+func MakeEpisode(item *gofeed.Item) Episode {
 	enclosures := make([]Enclosure, len(item.Enclosures))
 	for i, enclosure := range item.Enclosures {
 		enclosures[i] = MakeEnclosure(enclosure)
 	}
 
-	return Item{
+	return Episode{
 		GUID:        item.GUID,
 		Title:       item.Title,
 		Description: item.Description,

@@ -41,7 +41,8 @@ func New() (*Podcast, error) {
 	//pcFeed := feed.MakeFeed(fd)
 
 	//p, err := page.NewAddFeed()
-	p, err := page.NewFeedList(dummy.Feeds)
+	//p, err := page.NewFeedList(dummy.Feeds)
+	p, err := page.NewEpisodeList(dummy.Episodes)
 	if err != nil {
 		return nil, err
 	}
@@ -57,7 +58,7 @@ func (pc *Podcast) Update() error {
 	pc.ui.Update()
 
 	if inpututil.IsKeyJustPressed(ebiten.KeySpace) {
-		pl, err := player.New(pc.audioContext, pc.feeds[0].Items[0].Enclosures[0].URL)
+		pl, err := player.New(pc.audioContext, pc.feeds[0].Episodes[0].Enclosures[0].URL)
 		if err != nil {
 			return err
 		}
