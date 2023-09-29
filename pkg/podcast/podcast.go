@@ -5,6 +5,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	"github.com/hueypark/podcast/pkg/dummy"
 	"github.com/hueypark/podcast/pkg/feed"
 	"github.com/hueypark/podcast/pkg/player"
 	"github.com/hueypark/podcast/pkg/ui/page"
@@ -39,7 +40,8 @@ func New() (*Podcast, error) {
 
 	//pcFeed := feed.MakeFeed(fd)
 
-	addFeedPage, err := page.NewAddFeed()
+	//p, err := page.NewAddFeed()
+	p, err := page.NewFeedList(dummy.Feeds)
 	if err != nil {
 		return nil, err
 	}
@@ -47,7 +49,7 @@ func New() (*Podcast, error) {
 	return &Podcast{
 		//feeds:        []feed.Feed{pcFeed},
 		audioContext: audioContext,
-		ui:           addFeedPage,
+		ui:           p,
 	}, nil
 }
 
