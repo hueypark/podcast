@@ -1,12 +1,16 @@
 package podcast
 
 import (
+	"database/sql"
+	"fmt"
+
 	"github.com/ebitenui/ebitenui"
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/audio"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/hueypark/podcast/pkg/dummy"
 	"github.com/hueypark/podcast/pkg/feed"
+	"github.com/hueypark/podcast/pkg/persistence"
 	"github.com/hueypark/podcast/pkg/player"
 	"github.com/hueypark/podcast/pkg/ui/page"
 )
@@ -19,6 +23,8 @@ const (
 )
 
 type Podcast struct {
+	db *sql.DB
+
 	feeds []feed.Feed
 
 	audioContext *audio.Context
@@ -27,8 +33,13 @@ type Podcast struct {
 	ui *ebitenui.UI
 }
 
-func New() (*Podcast, error) {
+func New(dataSourceName string) (*Podcast, error) {
 	const rssFeedURL = "https://feeds.transistor.fm/cup-o-go"
+
+	db, err := persistence.NewSqliteDB(dataSourceName)
+	if err != nil {
+		return nil, fmt.Errorf("create new sqlite database failed: %w", err)
+	}
 
 	audioContext := audio.NewContext(audioSampleRate)
 
@@ -49,6 +60,7 @@ func New() (*Podcast, error) {
 
 	return &Podcast{
 		//feeds:        []feed.Feed{pcFeed},
+		db:           db,
 		audioContext: audioContext,
 		ui:           p,
 	}, nil

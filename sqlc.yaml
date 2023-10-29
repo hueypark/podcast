@@ -1,0 +1,9 @@
+version: "2"
+sql:
+  - engine: "sqlite"
+    queries: "pkg/persistence/query.sql"
+    schema: "pkg/persistence/schema.sql"
+    gen:
+      go:
+        package: "persistence"
+        out: "pkg/persistence"
